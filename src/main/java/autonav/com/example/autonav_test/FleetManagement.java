@@ -1,5 +1,8 @@
 package autonav.com.example.autonav_test;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class FleetManagement {
     private List<Vehicle> vehicles;
 
