@@ -1,12 +1,1 @@
-#  Fleet Management System
-
-A Spring Boot fleet management application for vehicle tracking and operations.
-
-## Features
-
-✅ Dashboard with real-time statistics  
-✅ Vehicle management (CRUD)  
-✅ REST API endpoints  
-✅ Responsive UI  
-✅ Authentication & security  
-✅ JPA/Hibernate persistence  
+A Spring Boot fleet management application that provides a comprehensive dashboard for tracking vehicle operations, managing fleet inventory, and monitoring vehicle status in real-time. The system supports user authentication, CRUD operations for vehicle management, REST API endpoints for programmatic access, and a responsive user interface that works across all devices. Built with modern Java technologies including Spring Boot, JPA/Hibernate for data persistence, and Thymeleaf for server-side rendering.
