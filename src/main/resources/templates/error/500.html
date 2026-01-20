@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error - AutoNav</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin: 0;
+            color: #fff;
+        }
+        .error-container {
+            text-align: center;
+            padding: 40px;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .error-message {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .error-description {
+            font-size: 16px;
+            opacity: 0.9;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: white;
+            color: #f5576c;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <h1 class="error-code">500</h1>
+    <p class="error-message">Internal Server Error</p>
+    <p class="error-description">Something went wrong on our end. Please try again later.</p>
+    <a href="/" class="back-link">Go Back Home</a>
+</div>
+</body>
+</html>

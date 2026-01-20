@@ -4,12 +4,12 @@ public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
-    private int code;
+    private String code;
 
     public ApiResponse() {
     }
 
-    public ApiResponse(boolean success, String message, T data, int code) {
+    public ApiResponse(boolean success, String message, T data, String code) {
         this.success = success;
         this.message = message;
         this.data = data;
@@ -40,11 +40,11 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }
