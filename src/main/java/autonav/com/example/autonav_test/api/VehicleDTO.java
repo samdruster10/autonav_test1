@@ -1,14 +1,14 @@
-package autonav.com.example.autonav_test;
+package autonav.com.example.autonav_test.api;
 
-public class Vehicle {
+public class VehicleDTO {
     private String id;
     private String model;
     private String status;
 
-    public Vehicle() {
+    public VehicleDTO() {
     }
 
-    public Vehicle(String id, String model, String status) {
+    public VehicleDTO(String id, String model, String status) {
         this.id = id;
         this.model = model;
         this.status = status;

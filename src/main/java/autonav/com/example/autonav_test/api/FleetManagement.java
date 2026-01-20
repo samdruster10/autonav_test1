@@ -1,5 +1,6 @@
-package autonav.com.example.autonav_test;
+package autonav.com.example.autonav_test.api;
 
+import autonav.com.example.autonav_test.entity.Vehicle;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,4 +22,5 @@ public class FleetManagement {
     public List<Vehicle> getVehicles() {
         return vehicles;
     }
+
 }
