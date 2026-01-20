@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Management Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .status-info {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .status-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            flex: 1;
+        }
+        
+        .status-card h3 {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .status-card .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-vehicle-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-group button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .form-group button:hover {
+            background: #764ba2;
+        }
+        
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .vehicle-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .vehicle-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .vehicle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .vehicle-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .vehicle-info strong {
+            color: #333;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            width: fit-content;
+        }
+        
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-badge.maintenance {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .vehicle-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .vehicle-actions button {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .vehicle-actions .edit {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .vehicle-actions .edit:hover {
+            background: #764ba2;
+        }
+        
+        .vehicle-actions .delete {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        
+        .vehicle-actions .delete:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            background: white;
+            padding: 60px 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #999;
+        }
+        
+        .empty-state p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .refresh-status {
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .modal-form input,
+        .modal-form select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .modal-actions .save {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .modal-actions .save:hover {
+            background: #764ba2;
+        }
+        
+        .modal-actions .cancel {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .modal-actions .cancel:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Fleet Management Dashboard</h1>
+            <div class="status-info">
+                <div class="status-card">
+                    <h3>Total Vehicles</h3>
+                    <div class="number" id="totalVehicles">0</div>
+                </div>
+                <div class="status-card">
+                    <h3>Active</h3>
+                    <div class="number" id="activeVehicles">0</div>
+                </div>
+                <div class="status-card">
+                    <h3>Maintenance</h3>
+                    <div class="number" id="maintenanceVehicles">0</div>
+                </div>
+                <div class="status-card">
+                    <h3>Inactive</h3>
+                    <div class="number" id="inactiveVehicles">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-vehicle-form">
+            <h3>Add New Vehicle</h3>
+            <div class="form-group">
+                <input type="text" id="vehicleId" placeholder="Vehicle ID" required>
+                <input type="text" id="vehicleModel" placeholder="Model" required>
+                <select id="vehicleStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+                <button onclick="addVehicle()">Add Vehicle</button>
+            </div>
+        </div>
+        
+        <div id="vehiclesContainer">
+            <div class="vehicles-grid" id="vehiclesList"></div>
+        </div>
+        
+        <div class="refresh-status">
+            <p>Last updated: <span id="lastUpdated">Just now</span> | Auto-refreshing every 2 seconds</p>
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Vehicle</h2>
+            <div class="modal-form">
+                <input type="hidden" id="editVehicleId">
+                <input type="text" id="editVehicleModel" placeholder="Model" required>
+                <select id="editVehicleStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="save" onclick="saveVehicle()">Save</button>
+                <button class="cancel" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = '/api/vehicles';
+        let vehicles = [];
+        let editingVehicleId = null;
+        
+        async function loadVehicles() {
+            try {
+                const response = await fetch(API_URL);
+                vehicles = await response.json();
+                renderVehicles();
+                updateStats();
+                updateLastUpdated();
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+            }
+        }
+        
+        function renderVehicles() {
+            const container = document.getElementById('vehiclesList');
+            
+            if (vehicles.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>No vehicles in the fleet yet</p><p>Add a vehicle to get started!</p></div>';
+                return;
+            }
+            
+            container.innerHTML = vehicles.map(vehicle => `
+                <div class="vehicle-card">
+                    <h3>${vehicle.id}</h3>
+                    <div class="vehicle-info">
+                        <p><strong>Model:</strong> ${vehicle.model}</p>
+                        <p><strong>Status:</strong> <span class="status-badge ${vehicle.status}">${vehicle.status}</span></p>
+                    </div>
+                    <div class="vehicle-actions">
+                        <button class="edit" onclick="openEditModal('${vehicle.id}', '${vehicle.model}', '${vehicle.status}')">Edit</button>
+                        <button class="delete" onclick="deleteVehicle('${vehicle.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateStats() {
+            const total = vehicles.length;
+            const active = vehicles.filter(v => v.status === 'active').length;
+            const maintenance = vehicles.filter(v => v.status === 'maintenance').length;
+            const inactive = vehicles.filter(v => v.status === 'inactive').length;
+            
+            document.getElementById('totalVehicles').textContent = total;
+            document.getElementById('activeVehicles').textContent = active;
+            document.getElementById('maintenanceVehicles').textContent = maintenance;
+            document.getElementById('inactiveVehicles').textContent = inactive;
+        }
+        
+        function updateLastUpdated() {
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
+        }
+        
+        async function addVehicle() {
+            const id = document.getElementById('vehicleId').value;
+            const model = document.getElementById('vehicleModel').value;
+            const status = document.getElementById('vehicleStatus').value;
+            
+            if (!id || !model) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, model, status })
+                });
+                
+                if (response.ok) {
+                    document.getElementById('vehicleId').value = '';
+                    document.getElementById('vehicleModel').value = '';
+                    document.getElementById('vehicleStatus').value = 'active';
+                    loadVehicles();
+                }
+            } catch (error) {
+                console.error('Error adding vehicle:', error);
+            }
+        }
+        
+        async function deleteVehicle(id) {
+            if (!confirm('Are you sure you want to delete this vehicle?')) return;
+            
+            try {
+                await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                loadVehicles();
+            } catch (error) {
+                console.error('Error deleting vehicle:', error);
+            }
+        }
+        
+        function openEditModal(id, model, status) {
+            editingVehicleId = id;
+            document.getElementById('editVehicleId').value = id;
+            document.getElementById('editVehicleModel').value = model;
+            document.getElementById('editVehicleStatus').value = status;
+            document.getElementById('editModal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('show');
+            editingVehicleId = null;
+        }
+        
+        async function saveVehicle() {
+            const id = document.getElementById('editVehicleId').value;
+            const model = document.getElementById('editVehicleModel').value;
+            const status = document.getElementById('editVehicleStatus').value;
+            
+            if (!model) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, model, status })
+                });
+                closeModal();
+                loadVehicles();
+            } catch (error) {
+                console.error('Error updating vehicle:', error);
+            }
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('editModal').onclick = function(e) {
+            if (e.target === this) closeModal();
+        }
+        
+        // Allow Enter key to add vehicle
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.id === 'vehicleStatus') {
+                addVehicle();
+            }
+        });
+        
+        // Load vehicles on page load and refresh every 2 seconds
+        loadVehicles();
+        setInterval(loadVehicles, 2000);
+    </script>
+</body>
+</html>
