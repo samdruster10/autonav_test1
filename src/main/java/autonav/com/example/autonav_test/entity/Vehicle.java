@@ -1,6 +1,13 @@
-package autonav.com.example.autonav_test;
+package autonav.com.example.autonav_test.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "vehicles")
 public class Vehicle {
+    @Id
     private String id;
     private String model;
     private String status;

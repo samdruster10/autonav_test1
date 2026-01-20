@@ -1,4 +1,4 @@
-package autonav.com.example.autonav_test;
+package autonav.com.example.autonav_test.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import javax.servlet.http.HttpSession;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Controller
 public class DashboardController {
@@ -60,20 +57,5 @@ public class DashboardController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
-    }
-}
-
-@EnableWebSecurity
-class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/login", "/api/vehicles").permitAll()
-                .anyRequest().permitAll()
-            .and()
-            .csrf().disable()
-            .formLogin().disable()
-            .httpBasic().disable();
     }
 }
