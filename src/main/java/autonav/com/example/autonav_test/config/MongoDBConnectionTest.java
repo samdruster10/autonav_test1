@@ -1,4 +1,4 @@
-package autonav.com.example.autonav_test;
+package autonav.com.example.autonav_test.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
