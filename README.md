@@ -1,9 +1,1 @@
-
-# Upgrade Java Project
-
-## 🖥️ Project Information
-- **Project path**: /workspaces/autonav_test1
-- **Java version**: 11
-- **Build tool type**: Maven Wrapper
-- **Build tool path**: /workspaces/autonav_test1
-
+A Spring Boot fleet management application that provides a comprehensive dashboard for tracking vehicle operations, managing fleet inventory, and monitoring vehicle status in real-time. The system supports user authentication, CRUD operations for vehicle management, REST API endpoints for programmatic access, and a responsive user interface that works across all devices. Built with modern Java technologies including Spring Boot, JPA/Hibernate for data persistence, and Thymeleaf for server-side rendering.

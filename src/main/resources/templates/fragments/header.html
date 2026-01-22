@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<header th:fragment="header" class="app-header">
+    <div class="header-container">
+        <h1 class="app-title">AutoNav Fleet Management</h1>
+        <div class="header-actions">
+            <span class="user-info" th:if="${session.user}">
+                Welcome, <strong th:text="${session.user}"></strong>
+            </span>
+            <form action="/logout" method="POST" class="logout-form">
+                <button type="submit" class="btn btn-logout">Logout</button>
+            </form>
+        </div>
+    </div>
+</header>
+</body>
+</html>
