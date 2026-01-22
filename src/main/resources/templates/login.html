@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fleet Management Login</title>
+    <title>AutoNav - Vehicle Tracking Login</title>
     <style>
         * {
             margin: 0;
@@ -13,36 +13,46 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
         }
         
-        .login-box {
+        .login-card {
             background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 60px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
         
-        .login-box h1 {
+        .login-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 50px 30px 30px;
             text-align: center;
-            color: #333;
+        }
+        
+        .login-header h1 {
+            font-size: 32px;
             margin-bottom: 10px;
-            font-size: 28px;
+            font-weight: 600;
         }
         
-        .login-box .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+        .login-header p {
             font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .login-body {
+            padding: 40px 30px;
         }
         
         .form-group {
@@ -52,103 +62,138 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #333;
+            color: #2c3e50;
             font-weight: 600;
+            font-size: 14px;
         }
         
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
         
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.1);
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
         
         .login-btn {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 14px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
         
         .login-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
         }
         
-        .error {
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
             background: #fee;
             color: #c33;
-            padding: 12px;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border-radius: 6px;
             margin-bottom: 20px;
-            border: 1px solid #fcc;
-        }
-        
-        .credentials-info {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 20px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .credentials-info h3 {
-            color: #333;
-            margin-bottom: 12px;
+            border-left: 4px solid #e74c3c;
             font-size: 14px;
         }
         
-        .credential-item {
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #666;
+        .credentials-section {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
         }
         
-        .credential-item strong {
-            color: #333;
-            font-family: monospace;
+        .credentials-section h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .credential-row {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .credential-row strong {
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-header {
+                padding: 40px 20px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 24px;
+            }
+            
+            .login-body {
+                padding: 30px 20px;
+            }
+            
+            .credentials-section {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="login-box">
-            <h1>Fleet Management</h1>
-            <p class="subtitle">AutoNav Dashboard Login</p>
+        <div class="login-card">
+            <div class="login-header">
+                <h1>🚗 AutoNav</h1>
+                <p>Vehicle Tracking System</p>
+            </div>
             
-            <div th:if="${error}" class="error" th:text="${error}"></div>
-            
-            <form method="POST" action="/login">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required autofocus>
-                </div>
+            <div class="login-body">
+                <div th:if="${error}" class="error-message" th:text="${error}"></div>
                 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
+                <form method="POST" action="/login">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Sign In</button>
+                </form>
                 
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-            
-            <div class="credentials-info">
-                <h3>📋 Demo Credentials</h3>
-                <div class="credential-item"><strong>Admin:</strong> admin / admin123</div>
-                <div class="credential-item"><strong>User:</strong> user / user123</div>
+                <div class="credentials-section">
+                    <h3>📋 Demo Credentials</h3>
+                    <div class="credential-row"><strong>admin</strong> / <strong>admin123</strong></div>
+                    <div class="credential-row"><strong>user</strong> / <strong>user123</strong></div>
+                </div>
             </div>
         </div>
     </div>
